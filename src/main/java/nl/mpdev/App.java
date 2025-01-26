@@ -1,14 +1,16 @@
-  //The factory pattern allows you to abstract the complexity of object creation (like size, material, or brand logic) inside the factory.
-  // You just call a simple method like createRunningShoe(), and it’s done.
-  // You don’t care about how the object is created, and the logic is centralized.
-  // It avoids clutter in the main method. Therefor factory methods can be change without changing the client(main)
+//The factory pattern allows you to abstract the complexity of object creation (like size, material, or brand logic) inside the factory.
+// You just call a simple method like createRunningShoe(), and it’s done.
+// You don’t care about how the object is created, and the logic is centralized.
+// It avoids clutter in the main method. Therefor factory methods can be change without changing the client(main)
 
 package nl.mpdev;
 
-  // This could be as well an abstract class if there is a certain constructor is needed
-          //interface Shoe {
-          //  void wear();
-          //}
+// This could be as well an abstract class if there is a certain constructor is needed
+//interface Shoe {
+//  void wear();
+//}
+
+import java.util.List;
 
 abstract class Shoe {
   private String size;
@@ -39,7 +41,7 @@ class AdidasRunningShoe extends Shoe {
   }
 
   public AdidasRunningShoe(String size, String color) {
-    super(size,color);
+    super(size, color);
   }
 
   @Override
@@ -55,6 +57,7 @@ class AdidasRunningShoe extends Shoe {
 class AdidasSkateBoardShoe extends Shoe {
   public AdidasSkateBoardShoe() {
   }
+
   public AdidasSkateBoardShoe(String size, String color) {
     super(size, color);
   }
@@ -71,7 +74,7 @@ class AdidasBasketBallShoe extends Shoe {
   }
 
   public AdidasBasketBallShoe(String size, String color) {
-    super(size,color);
+    super(size, color);
   }
 
   @Override
@@ -85,15 +88,14 @@ class AdidasBasketBallShoe extends Shoe {
 
 }
 
-abstract class ShoeFactory {
-  public abstract AdidasRunningShoe createRunningShoe();
 
-  public abstract Shoe createRunningShoeWithSomeExtraDetails();
-
-  public abstract Shoe createSkateBoardShoe();
-
-  public abstract Shoe createBasketBallShoe();
-
+// This could in theory also be an abstract class for this case. Then you could still add an own default implementation to it.
+interface ShoeFactory {
+   AdidasRunningShoe createRunningShoe();
+   Shoe createRunningShoeWithSomeExtraDetails();
+   Shoe createSkateBoardShoe();
+   Shoe createBasketBallShoe();
+   List<Shoe> creatingAllShoesWithDetails();
 }
 
 class ShoeFactoryAnotherExample {
@@ -102,8 +104,7 @@ class ShoeFactoryAnotherExample {
   }
 }
 
-// This could in theory also be an interface for this case. Only then you would not have forces implementation of the factory.
-class AdidasFactory extends ShoeFactory {
+class AdidasFactory implements ShoeFactory {
   // This is the factory method
   @Override
   public AdidasRunningShoe createRunningShoe() {
@@ -114,7 +115,7 @@ class AdidasFactory extends ShoeFactory {
 
   @Override
   public Shoe createRunningShoeWithSomeExtraDetails() {
-    return new AdidasRunningShoe("Large","red");
+    return new AdidasRunningShoe("Large", "Red");
   }
 
   @Override
@@ -127,6 +128,14 @@ class AdidasFactory extends ShoeFactory {
     return new AdidasBasketBallShoe();
   }
 
+  @Override
+  public List<Shoe> creatingAllShoesWithDetails() {
+    return List.of(
+      new AdidasRunningShoe("Large", "Red"),
+      new AdidasSkateBoardShoe("Small", "Green"),
+      new AdidasBasketBallShoe("Medium", "Blue")
+    );
+  }
 }
 
 public class App {
@@ -168,9 +177,11 @@ public class App {
     // The whole point of the factory is to abstract the instantiation details and allow for future changes (e.g., adding new shoe types)
     // without changing the client code.
 
-
     // Factory method then is being where the subclass derives it constructor from its abstract class
     Shoe adidasShoeWithSomeDetails = adidasFactory.createRunningShoeWithSomeExtraDetails();
     System.out.println(adidasShoeWithSomeDetails.toString());
+
+    // Example of a list returning from the the factory
+    adidasFactory.creatingAllShoesWithDetails().forEach((shoe) -> System.out.println(shoe.toString()));
   }
 }
