@@ -3,7 +3,7 @@
 // You don’t care about how the object is created, and the logic is centralized.
 // It avoids clutter in the main method. Therefor factory methods can be change without changing the client(main)
 
-package nl.mpdev;
+package nl.mpdev.firs_attemp;
 
 // This could be as well an abstract class if there is a certain constructor is needed
 //interface Shoe {
@@ -88,14 +88,25 @@ class AdidasBasketBallShoe extends Shoe {
 
 }
 
+// This could in theory also be an abstract or an interface class for this case. Then you could still add an own default implementation
+// to it.
+abstract class ShoeFactory {
 
-// This could in theory also be an abstract class for this case. Then you could still add an own default implementation to it.
-interface ShoeFactory {
-   AdidasRunningShoe createRunningShoe();
-   Shoe createRunningShoeWithSomeExtraDetails();
-   Shoe createSkateBoardShoe();
-   Shoe createBasketBallShoe();
-   List<Shoe> creatingAllShoesWithDetails();
+  public Shoe wearRunningShoe() {
+    Shoe shoe = createRunningShoe();
+    shoe.wear();
+    return  shoe;
+  }
+
+  public abstract AdidasRunningShoe createRunningShoe();
+
+  public abstract Shoe createRunningShoeWithSomeExtraDetails();
+
+  public abstract Shoe createSkateBoardShoe();
+
+  public abstract Shoe createBasketBallShoe();
+
+  public abstract List<Shoe> creatingAllShoesWithDetails();
 }
 
 class ShoeFactoryAnotherExample {
@@ -104,13 +115,15 @@ class ShoeFactoryAnotherExample {
   }
 }
 
-class AdidasFactory implements ShoeFactory {
+class AdidasFactory extends ShoeFactory {
+
   // This is the factory method
   @Override
   public AdidasRunningShoe createRunningShoe() {
     // In theory you could add more logic inside of this and even perhaps create different instances and pass it down into the
     // constructor if it can contain those arguments.
     return new AdidasRunningShoe();
+
   }
 
   @Override
@@ -183,5 +196,7 @@ public class App {
 
     // Example of a list returning from the the factory
     adidasFactory.creatingAllShoesWithDetails().forEach((shoe) -> System.out.println(shoe.toString()));
+
+    adidasFactory.wearRunningShoe();
   }
 }
