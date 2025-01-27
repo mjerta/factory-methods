@@ -14,6 +14,11 @@ public class App {
 
     // The main disadvantage is that classes without public or protected constructors can not be subclassed
 
+
+
+    // A static factory method is a static method in a class that returns an instance of that class (or a related class)
+    // and provides an alternative to using constructors for object creation.
+
     Shoe redshoe = Shoe.createBigRedShoe(Size.EU_50);
     // To String call is not necessary in println
     System.out.println(redshoe);
