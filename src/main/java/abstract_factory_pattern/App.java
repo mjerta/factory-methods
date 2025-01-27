@@ -8,8 +8,11 @@ public class App {
 
   public  static void main(String[] args) {
 
-    // Example of the (simple) factory method pattern
+    // Example of the (abstract) factory method pattern
 
+
+    // The Factory Method Pattern is a creational design pattern that defines an interface for creating objects in a superclass,
+    // but allows subclasses to alter the type of objects that will be created.
 
     // note of abtract factory method:
     // Abstract factory pattern suggest to explicitly declare interfaces for each distinct product we have
