@@ -10,6 +10,9 @@ public class Shoe {
   private String color;
   private int size;
 
+  public Shoe() {
+  }
+
   private Shoe(String color, int size) {
     this.color = color;
     this.size = size;
